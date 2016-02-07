@@ -36,9 +36,7 @@
                 <h3><span class="fa fa-user"></span> Local</h3>
                 <% if(user.local.email) { %>
                     <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
+                        <strong>Logged as:</strong>: <%= user.local.email %><br>
                     </p>
                 <% } else { %>
                     <a href="/connect/local" class="btn btn-default">Connect Local</a>
@@ -66,7 +64,7 @@
             <input id="origin-input" placeholder="Enter a start location">
             <input id="destination-input" placeholder="Enter a destination location">
             <label>Radius : </label>
-            <input id="radius" placeholder="Enter radius" >
+            <input id="radius" placeholder="Enter radius">
             <button ng-click="route()" >Submit</button>
             <div id="mode_selector">
                 <input type="radio" name="type" id="changemode-walking" checked = "checked">
@@ -86,10 +84,8 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
   
   var origin_place_id = null;
   var destination_place_id = null;
-  
-  var distance_radius = parseFloat(document.getElementById('radius').value); 
   var routeBoxer = null;
-  var boxpolys = null;
+  var boxpolys = null; 
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     mapTypeControl: false,
@@ -198,6 +194,7 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
     if(!origin_place_id || !destination_place_id ){
       return;
     }
+    var distance_radius = parseFloat(document.getElementById('radius').value);
     directionsService.route({
       origin : {'placeId':origin_place_id},
       destination : {'placeId':destination_place_id},
