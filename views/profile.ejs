@@ -239,12 +239,54 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
         directionsDisplay.setDirections(response);
         var path = response.routes[0].overview_path;
         var boxes = routeBoxer.box(path,distance_radius);
+        searchBounds(boxes);
         drawBoxes(boxes);
       } else {
         window.alert('Directions request failed due to ' + status);
       }
     });
   };
+  function searchBounds(bounds){
+      for (var i = 0; i < bounds.length; i++) {
+     (function(i) {
+       setTimeout(function() {
+
+         // Perform search on the bound and save the result
+         performSearch(bounds[i]);
+       }, 400 * i);
+     }(i));
+   }
+  }
+  function performSearch(bound){
+    var request = {
+     bounds: bound,
+     keyword: 'restaurant'
+   };
+   currentBound = bound;
+   service.radarSearch(request, callback);
+  }
+
+  function callback(results, status) {
+   if (status !== google.maps.places.PlacesServiceStatus.OK) {
+     console.error(status);
+     return;
+   }
+
+   for (var i = 0, result; result = results[i]; i++) {
+     addMarker(result);
+   }
+ }
+ function addMarker(place){
+  var marker = new google.maps.Marker({
+    map : $scope.map,
+    position : place.geometry.location,
+    icon :{
+      url:'http://maps.gstatic.com/mapfiles/circle.png',
+      anchor: new google.maps.Point(10, 10),
+      scaledSize: new google.maps.Size(10, 17)
+    }
+  });
+ }
   function drawBoxes(boxes){
     boxpolys = new Array(boxes.length);
     for (var i = 0; i < boxes.length; i++) {
