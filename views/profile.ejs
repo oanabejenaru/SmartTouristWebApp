@@ -14,25 +14,37 @@
     <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/routeboxer/src/RouteBoxer.js"></script>
 
     <style>
-        body        { padding-top:20px; padding-bottom:50px; word-wrap:break-word; }
+        body        { padding-top:50px; padding-bottom:50px; word-wrap:break-word; }
         #map {
-            width: 700px;
+            width: 760px;
             height: 600px;
         }
     </style>
 </head>
 <body ng-app = "mapsApp" ng-controller="mapCtrl">
+  <nav class="navbar navbar-default navbar-fixed-top" >
+     <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/profile">Smart Tourist</a>
+      </div>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout" >Logout</a></li>
+      </ul>
+
+  </div>
+  </nav>
 <div class="container">
+  <div class="row">
     <div class="page-header">
         <h1>Route Configuration</h1>
-          <a href="/logout" class="btn btn-default">Logout</a>
-    </div>
-
+  </div>
+</div>
     <div class="row">
 
         <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
+        <div class="col-lg-6">
+            <div class="well well-sm">
                 <h3><span class="fa fa-user"></span> Local</h3>
                 <% if(user.local.email) { %>
                     <p>
@@ -45,13 +57,13 @@
             </div>
         </div>
         <!-- FACEBOOK INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
+        <div class="col-lg-6">
+            <div class="well well-sm">
                 <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
                 <!-- check if the user has this token (is the user authenticated with this social account) -->
                 <% if (user.facebook.token) { %>
                     <p>
-                        <strong>Logged as: </strong>: <%= user.facebook.name %>
+                        <strong>Logged as: </strong> <%= user.facebook.name %>
                     </p>
                 <% } else { %>
                     <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
@@ -85,6 +97,14 @@
               </div>
             </div>
             </div>
+            <div class="form-group">
+      <label for="select">Choose travel type</label>
+        <select class="form-control" id="select">
+          <option>Family travel</option>
+          <option>Student trip</option>
+          <option>Direct route</option>
+        </select>
+    </div>
             <div class="form-inline">
             
                 <input type="radio" name="type" id="changemode-walking" checked = "checked">
@@ -93,6 +113,7 @@
                 <input type="radio" name="type" id="changemode-driving">
                 <label for="changemodedriving">Driving</label>
             
+
             <button ng-click="route()" type="submit" class="btn btn-primary pull-right">Configure route</button>
           </div>
   </div>
