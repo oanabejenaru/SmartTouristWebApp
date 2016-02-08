@@ -19,6 +19,11 @@
             width: 760px;
             height: 600px;
         }
+        .type_checkboxes {
+          width:300px; 
+          height: 100px;
+          overflow-y: scroll;
+        }
     </style>
 </head>
 <body ng-app = "mapsApp" ng-controller="mapCtrl">
@@ -35,11 +40,6 @@
   </div>
   </nav>
 <div class="container">
-  <div class="row">
-    <div class="page-header">
-      <h1>Route Configuration</h1>
-    </div>
-  </div>
     <div class="row">
 
         <!-- LOCAL INFORMATION -->
@@ -74,56 +74,132 @@
     </div>
     <div class="row">
       <div class="col-lg-4">
-          <div class="panel panel-primary ">
+          <div class="panel panel-info ">
               <div class="panel-heading">
-                  <h3 class="panel-title">Configure route</h3>
+                <h3 class="panel-title">Places Info</h3>
               </div>
               <div class="panel-body">
-                <div class="form-horizontal">
-                  <div class="form-group">
+                  <div class="form-horizontal">
                     <div class="col-lg-12">
-                      <input class="form-control" id="origin-input" placeholder="Enter start location" type="text">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-lg-12">
-                      <input class="form-control" id="destination-input" placeholder="Enter destination location" type="text">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="radius" class="col-lg-4">Radius:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" id="radius" placeholder="Enter radius" >
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="select">Choose travel type</label>
-                  <select class="form-control" id="select">
-                    <option>Family travel</option>
-                    <option>Student trip</option>
-                    <option>Direct route</option>
-                  </select>
-                </div>
-                <div class="form-inline">
-                  <input type="radio" name="type" id="changemode-walking" checked = "checked">
-                  <label for="changemodewalking">Walking</label>
-                  <input type="radio" name="type" id="changemode-driving">
-                  <label for="changemodedriving">Driving</label>
-                   <button ng-click="route()" type="submit" class="btn btn-primary pull-right">Configure route</button>
-                </div>
-              </div>
-          </div>
-          <div class="panel panel-primary ">
-            <div class="panel-heading">
-              <h3 class="panel-title">Intermediate points</h3>
-            </div>
-            <div class="panel-body">
 
-            </div>
+
+
+                    </div>
+                  </div>
+              </div> 
           </div>
       </div>
       <div class="col-lg-8" id = "map"></div>      
+    </div>
+    <div class="row ">
+      <div class="col-lg-4">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Configure route</h3>
+          </div>
+          <div class="panel-body">
+                      <div class="form-horizontal">
+                        <div class="form-group">
+                          <div class="col-lg-10">
+                            <input class="form-control" id="origin-input" placeholder="Enter start location" type="text">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-lg-10">
+                            <input class="form-control" id="destination-input" placeholder="Enter destination location" type="text">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="radius" class="col-lg-3 control-label">Radius:</label>
+                          <div class="col-lg-7">
+                              <input class="form-control" id="radius" placeholder="Enter radius" >
+                          </div>
+                        </div>
+                        <div class="form-group col-lg-10" >
+                          <input type="radio" name="type" id="changemode-walking" checked = "checked">
+                          <label for="changemodewalking">Walking</label>
+                          <input type="radio" name="type" id="changemode-driving">
+                          <label for="changemodedriving">Driving</label>
+                           <button ng-click="route()" type="submit" class="btn btn-primary pull-right">Set</button>
+                        </div>
+                      </div>
+          </div>
+        </div>  
+      </div>
+      <div class="col-lg-8">          
+        <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Travel mode</h3>
+            </div>
+            <div class="panel-body">
+                      <table class="table table-striped table-hover ">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="panel panel-success">
+                                <div class="panel-body" >
+                                  <img src="http://www.woombie.com/blog/wp-content/uploads/2013/03/family-travel.jpg" alt="Family Travel" class="img-rounded" width="200" height="200">
+                                </div>
+                                <div class="panel-footer">
+                                  <h3 class="panel-title">Family Travel</h3>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="panel panel-success">
+                                <div class="panel-body" >
+                                  <img src="http://www.diversetraveller.com/Images/Articles/142/feb08_travelresearch_matesholidays.jpg" alt="Friends/Student Travel" class="img-rounded" width="200" height="200">
+                                </div>
+                                <div class="panel-footer">
+                                  <h3 class="panel-title">Friends/Strudent Travel</h3>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="panel panel-success">
+                                <div class="panel-body" >
+                                   <img src="http://previews.123rf.com/images/dirkercken/dirkercken1410/dirkercken141001459/32979421-shortcut-short-route-cut-distance-fast-easy-way-bypass-Stock-Photo.jpg" alt="Fast Route" class="img-rounded" width="200" height="200">
+                                 </div>
+                                 <div class="panel-footer">
+                                   <h3 class="panel-title">Fast Route</h3>
+                                 </div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr >
+                            <td>
+                              <p class="text-muted">Choose places types</p>
+                            </td>
+                          </tr>
+                          <tr >
+                            <td>
+                              <input id="amusement_park" type="checkbox" /> Amusement Parks <br />
+                              <input id="gas_station" type="checkbox" /> Gas stations <br />
+                              <input id="aquarium" type="checkbox" /> Aquariums <br />
+                              <input id="restaurant" type="checkbox" /> Restaurants <br />
+                              <input id="food" type="checkbox" /> Food places <br />
+                            </td>
+                            <td>
+                              <input id="park" type="checkbox" /> Parks <br />
+                              <input id="museum" type="checkbox" /> Museums <br />
+                              <input id="shopping_mall" type="checkbox" /> Shopping Malls <br />
+                              <input id="bar" type="checkbox" /> Bars <br />
+                              <input id="cafe" type="checkbox" /> Caffe <br />
+                            </td>
+                            <td>
+                              <input id="bouling_alley" type="checkbox" /> Churches <br/>
+                              <input id="restaurant" type="checkbox" /> Bowling Alleys <br />
+                              <input id="night_club" type="checkbox" /> Night Clubs <br />
+                              <input id="movie_theater" type="checkbox" /> Movie Theaters <br />
+                              <input id="zoo" type="checkbox" /> Zoo <br />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+            </div>
+          </div> 
+        </div>  
+      </div>
   </div>
 </div>
     
@@ -279,7 +355,7 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
   function performSearch(bound){
     var request = {
      bounds: bound,
-     types: ['restaurant','food']
+     types: ['art_gallery','museum']
    };
    service.radarSearch(request, callback);
   }
