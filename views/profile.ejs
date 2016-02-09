@@ -2,12 +2,13 @@
 <!doctype html>
 <html class ="no-js">
 <head>
-    <title>Node Authentication</title>
+    <title>Smart Tourist</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://bootswatch.com/flatly/bootstrap.css">
     <!--Angular JS-->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_Ahm6MSh0ACbjgIB50gcdvnMUkyph6ms&signed_in=true&libraries=places,visualization"></script>
     <!--RouteBoxer library-->
@@ -136,9 +137,9 @@
                         <tbody>
                           <tr>
                             <td>
-                              <div class="panel panel-success">
+                              <div id="family_panel" class="panel panel-success">
                                 <div class="panel-body" >
-                                  <img src="http://www.woombie.com/blog/wp-content/uploads/2013/03/family-travel.jpg" alt="Family Travel" class="img-rounded" width="200" height="200">
+                                  <img src="http://www.woombie.com/blog/wp-content/uploads/2013/03/family-travel.jpg" alt="Family Travel" class="img-rounded" width="190" height="190">
                                 </div>
                                 <div class="panel-footer">
                                   <h3 class="panel-title">Family Travel</h3>
@@ -146,9 +147,9 @@
                               </div>
                             </td>
                             <td>
-                              <div class="panel panel-success">
+                              <div id="students_panel" class="panel panel-success">
                                 <div class="panel-body" >
-                                  <img src="http://www.diversetraveller.com/Images/Articles/142/feb08_travelresearch_matesholidays.jpg" alt="Friends/Student Travel" class="img-rounded" width="200" height="200">
+                                  <img src="http://www.diversetraveller.com/Images/Articles/142/feb08_travelresearch_matesholidays.jpg" alt="Friends/Student Travel" class="img-rounded" width="190" height="190">
                                 </div>
                                 <div class="panel-footer">
                                   <h3 class="panel-title">Friends/Strudent Travel</h3>
@@ -156,9 +157,9 @@
                               </div>
                             </td>
                             <td>
-                              <div class="panel panel-success">
+                              <div id="fast_route_panel" class="panel panel-success">
                                 <div class="panel-body" >
-                                   <img src="http://previews.123rf.com/images/dirkercken/dirkercken1410/dirkercken141001459/32979421-shortcut-short-route-cut-distance-fast-easy-way-bypass-Stock-Photo.jpg" alt="Fast Route" class="img-rounded" width="200" height="200">
+                                   <img src="http://previews.123rf.com/images/dirkercken/dirkercken1410/dirkercken141001459/32979421-shortcut-short-route-cut-distance-fast-easy-way-bypass-Stock-Photo.jpg" alt="Fast Route" class="img-rounded" width="190" height="190">
                                  </div>
                                  <div class="panel-footer">
                                    <h3 class="panel-title">Fast Route</h3>
@@ -187,8 +188,8 @@
                               <input id="cafe" type="checkbox" /> Caffe <br />
                             </td>
                             <td>
-                              <input id="bouling_alley" type="checkbox" /> Churches <br/>
-                              <input id="restaurant" type="checkbox" /> Bowling Alleys <br />
+                              <input id="bowling_alley" type="checkbox" /> Bowling Alleys <br/>
+                              <input id="church" type="checkbox" /> Churches <br />
                               <input id="night_club" type="checkbox" /> Night Clubs <br />
                               <input id="movie_theater" type="checkbox" /> Movie Theaters <br />
                               <input id="zoo" type="checkbox" /> Zoo <br />
@@ -202,7 +203,7 @@
       </div>
   </div>
 </div>
-    
+
 
 <script>
 //console.log("Maps...");
@@ -212,8 +213,10 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
   var destination_place_id = null;
   var routeBoxer = null;
   var boxpolys = null; 
+  var boxes;
   var service;
   var markers = [];
+  var place_types = [];
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     mapTypeControl: false,
@@ -315,6 +318,338 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
     /*route(origin_place_id, destination_place_id, travel_mode,
           directionsService, directionsDisplay);*/
   });
+  document.getElementById("family_panel").addEventListener("click",function(){
+    document.getElementById("amusement_park").checked = false;
+    document.getElementById("aquarium").checked = false;
+    document.getElementById("gas_station").checked = false;
+    document.getElementById("park").checked = false;
+    document.getElementById("museum").checked = false;
+    document.getElementById("shopping_mall").checked = false;
+    document.getElementById("cafe").checked = false;
+    document.getElementById("bar").checked = false;
+    document.getElementById("bowling_alley").checked = false;
+    document.getElementById("night_club").checked = false;
+    document.getElementById("restaurant").checked = false;
+    document.getElementById("food").checked = false;
+    document.getElementById("church").checked = false;
+    document.getElementById("zoo").checked = false;
+    document.getElementById("movie_theater").checked = false;
+
+    place_types=[];
+    place_types.push("amusement_park");
+    place_types.push("aquarium");
+    place_types.push("park");
+    place_types.push("museum");
+    place_types.push("shopping_mall");
+    place_types.push("zoo");
+    deleteMarkers();
+    searchBounds(boxes);
+    document.getElementById("amusement_park").checked = true;
+    document.getElementById("aquarium").checked = true;
+    document.getElementById("park").checked = true;
+    document.getElementById("museum").checked = true;
+    document.getElementById("shopping_mall").checked = true;
+    document.getElementById("zoo").checked = true;
+  });
+  document.getElementById("students_panel").addEventListener("click",function(){
+    document.getElementById("amusement_park").checked = false;
+    document.getElementById("aquarium").checked = false;
+    document.getElementById("gas_station").checked = false;
+    document.getElementById("park").checked = false;
+    document.getElementById("museum").checked = false;
+    document.getElementById("shopping_mall").checked = false;
+    document.getElementById("cafe").checked = false;
+    document.getElementById("bar").checked = false;
+    document.getElementById("bowling_alley").checked = false;
+    document.getElementById("night_club").checked = false;
+    document.getElementById("restaurant").checked = false;
+    document.getElementById("food").checked = false;
+    document.getElementById("church").checked = false;
+    document.getElementById("zoo").checked = false;
+    document.getElementById("movie_theater").checked = false;
+    place_types=[];
+    place_types.push("shopping_mall");
+    place_types.push("bar");
+    place_types.push("bowling_alley");
+    place_types.push("park");
+    place_types.push("night_club");
+    place_types.push("movie_theater");
+    deleteMarkers();
+    searchBounds(boxes);
+    document.getElementById("shopping_mall").checked = true;
+    document.getElementById("bar").checked = true;
+    document.getElementById("bowling_alley").checked = true;
+    document.getElementById("park").checked = true;
+    document.getElementById("night_club").checked = true;
+    document.getElementById("movie_theater").checked = true;
+  });
+
+  document.getElementById("fast_route_panel").addEventListener("click",function(){
+    document.getElementById("amusement_park").checked = false;
+    document.getElementById("aquarium").checked = false;
+    document.getElementById("gas_station").checked = false;
+    document.getElementById("park").checked = false;
+    document.getElementById("museum").checked = false;
+    document.getElementById("shopping_mall").checked = false;
+    document.getElementById("cafe").checked = false;
+    document.getElementById("bar").checked = false;
+    document.getElementById("bowling_alley").checked = false;
+    document.getElementById("night_club").checked = false;
+    document.getElementById("restaurant").checked = false;
+    document.getElementById("food").checked = false;
+    document.getElementById("church").checked = false;
+    document.getElementById("zoo").checked = false;
+    document.getElementById("movie_theater").checked = false;
+    place_types=[];
+    deleteMarkers();
+    place_types.push("gas_station");
+    searchBounds(boxes);
+    document.getElementById("gas_station").checked = true;
+
+  });
+  document.getElementById("amusement_park").addEventListener("click",function(){
+      if(document.getElementById("amusement_park").checked){
+      place_types.push("amusement_park");
+      
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="amusement_park")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+
+  document.getElementById("gas_station").addEventListener("click",function(){
+      if(document.getElementById("gas_station").checked){
+      place_types.push("gas_station");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]=="gas_station")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+
+    }
+    searchBounds(boxes);
+  });
+
+  document.getElementById("aquarium").addEventListener("click",function(){
+
+    if(document.getElementById("aquarium").checked){
+      place_types.push("aquarium");
+     
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="aquarium")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+      
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("restaurant").addEventListener("click",function(){
+      
+
+    if(document.getElementById("restaurant").checked){
+      place_types.push("restaurant");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="restaurant")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+      
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("food").addEventListener("click",function(){
+      if(document.getElementById("food").checked){
+      place_types.push("food");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="food")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("park").addEventListener("click",function(){
+      if(document.getElementById("park").checked){
+      place_types.push("park");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="park")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("museum").addEventListener("click",function(){
+
+    if(document.getElementById("museum").checked){
+      place_types.push("museum");
+     
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="museum")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("shopping_mall").addEventListener("click",function(){
+      if(document.getElementById("shopping_mall").checked){
+      place_types.push("shopping_mall");
+      
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="shopping_mall")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("bar").addEventListener("click",function(){
+      if(document.getElementById("bar").checked){
+      place_types.push("bar");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="bar")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+      
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("cafe").addEventListener("click",function(){
+      if(document.getElementById("cafe").checked){
+      place_types.push("cafe");
+    
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="cafe")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("church").addEventListener("click",function(){
+      if(document.getElementById("church").checked){
+      place_types.push("church");
+      searchBounds(boxes);
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="church")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("bowling_alley").addEventListener("click",function(){
+      if(document.getElementById("bowling_alley").checked){
+      place_types.push("bowling_alley");
+      searchBounds(boxes);
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="bowling_alley")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+      searchBounds(boxes);
+    }
+  });
+  document.getElementById("night_club").addEventListener("click",function(){
+      if(document.getElementById("night_club").checked){
+      place_types.push("night_club");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="night_club")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("movie_theater").addEventListener("click",function(){
+      if(document.getElementById("movie_theater").checked){
+      place_types.push("movie_theater");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="movie_theater")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+    }
+    searchBounds(boxes);
+  });
+  document.getElementById("zoo").addEventListener("click",function(){
+      if(document.getElementById("zoo").checked){
+      place_types.push("zoo");
+    }
+    else {
+      for(var i=0;i<place_types.length;i++){
+        if(place_types[i]==="zoo")
+        {
+          place_types.splice(i,i+1);
+        }
+      }
+      deleteMarkers();
+      
+    }
+    searchBounds(boxes);
+  });
 
   $scope.route = function(){
 
@@ -333,8 +668,8 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
       if(status === google.maps.DirectionsStatus.OK){
         directionsDisplay.setDirections(response);
         var path = response.routes[0].overview_path;
-        var boxes = routeBoxer.box(path,distance_radius);
-        searchBounds(boxes);
+        boxes = routeBoxer.box(path,distance_radius);
+        //searchBounds(boxes);
         //drawBoxes(boxes);
       } else {
         window.alert('Directions request failed due to ' + status);
@@ -355,9 +690,11 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
   function performSearch(bound){
     var request = {
      bounds: bound,
-     types: ['art_gallery','museum']
+     types: place_types
    };
-   service.radarSearch(request, callback);
+   if(place_types.length > 0){
+    service.radarSearch(request, callback);
+    }
   }
 
   function callback(results, status) {
@@ -374,8 +711,10 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
   var marker = new google.maps.Marker({
     map : $scope.map,
     position : place.geometry.location,
+    animation : google.maps.Animation.DROP,
     icon :'http://www.google.com/intl/en_us/mapfiles/ms/micons/yellow-dot.png'
   });
+  
   markers.push(marker);
  }
 
@@ -410,7 +749,37 @@ function drawBoxes(boxes){
     }
 });
     </script>
-</div>
     
 </body>
+<script type="text/javascript">
+  var url = "http://dbpedia.org/sparql";
+    var query ="\
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
+    PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\
+    PREFIX dbp: <http://dbpedia.org/property/>\
+    SELECT *\
+    WHERE {\
+      ?x rdfs:label \"Iași\"@en\
+      ?x dbpedia-owl:abstract ?abstract\
+      ?x rdfs:comment ?comment\
+      ?x dbp:website ?website\
+      ?x dbp:nickname ?nickname\
+      ?x dbp:leaderName ?leaderName\
+      ?leaderName dbp:name ?numePrimar\
+      FILTER (LANG(?abstract) = 'en' and LANG(?comment)='en')\
+    }";
+    var queryUrl = encodeURI(url+"?query="+query+"&format=json");
+    $.ajax({
+      dataType : "jsonp",
+      url:queryUrl,
+      success: function(_data){
+        callback(_data.results.bindings);
+      }
+    });
+    function receiveResults(answer){
+      for(var i in answer){
+          console.log(answer.abstract.value);
+        }
+    }
+</script>
 </html>
