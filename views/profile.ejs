@@ -81,7 +81,7 @@
               </div>
               <div class="panel-body">
                   <div class="form-horizontal">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" id="place_info">
 
 
 
@@ -716,6 +716,16 @@ angular.module('mapsApp',[]).controller('mapCtrl',function($scope){
   });
   
   markers.push(marker);
+  google.maps.event.addListener(marker,'click',function(){
+    service.getDetails(place,function(result,status){
+    if(status!== google.maps.places.PlacesServiceStatus.OK){
+      console.error(status);
+      return;
+    }
+    document.getElementById("place_info").innerHTML = '<strong>' + result.name + '</strong><br><strong>Addess: </strong>' +
+          result.formatted_address;
+    });
+  });
  }
 
  function deleteMarkers(){
